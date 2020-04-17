@@ -1,0 +1,38 @@
+.player-container {
+  border: 2px solid black;
+  border-radius: 15px;
+  height: 400px;
+  width: 225px;
+
+  .player-cards-container {
+    border-radius: 15px;
+  }
+
+  .player-controls-container {
+    display: flex;
+    justify-content: center;
+    background-color: rgba(26, 26, 26, 0.6);
+    position: absolute;
+    margin-top: 300px;
+    width: inherit;
+    // Just to keep this on top...
+    z-index: 10000;
+  }
+
+  &:first-child {
+    margin-right: 7.5px;
+  }
+
+  &:last-child {
+    margin-left: 7.5px;
+  }
+}
+
+.player-cards-container {
+  padding: 30px;
+  flex-direction: column;
+
+  &:last-child {
+    margin-bottom: -210px;
+  }
+}
