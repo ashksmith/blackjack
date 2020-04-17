@@ -12,23 +12,46 @@ class Player extends React.Component {
   }
 
   render() {
-    const { id, balance, cards, bust, hit } = this.props;
+    // prettier-ignore
+    const { id, balance, hand, isBust, isStick, hitFunction, stickFunction, stick, dealer } = this.props;
+    const disabled = isBust || isStick ? true : false;
+
     return (
       <div className="player-container">
         <div className="player-controls-container">
-          <input
-            type="button"
-            value="Hit"
-            onClick={() => this.props.hit(id)}
-            className="button-input"
-          ></input>
-
-          <input type="button" value="Stick" className="button-input"></input>
+          <div hidden={dealer}>Balance: {balance}</div>
+          <div hidden={dealer}>
+            <input
+              disabled={disabled}
+              type="button"
+              value="Hit"
+              onClick={() => hitFunction(id)}
+              className="button-input"
+            ></input>
+            <input
+              disabled={disabled}
+              type="button"
+              value="Stick"
+              onClick={() => stickFunction(id)}
+              className="button-input"
+            ></input>
+            <input
+              disabled={disabled}
+              type="button"
+              value="Bet"
+              className="button-input"
+            ></input>
+          </div>
         </div>
         <div className="player-cards-container">
-          {this.props.hand &&
-            this.props.hand.map((card, index) => (
-              <Card suit={card.suit} value={card.value} index={index} />
+          {hand &&
+            hand.map((card, index) => (
+              <Card
+                key={index}
+                suit={card.suit}
+                value={card.value}
+                index={index}
+              />
             ))}
         </div>
       </div>

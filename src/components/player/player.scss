@@ -10,10 +10,14 @@
 
   .player-controls-container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     background-color: rgba(26, 26, 26, 0.6);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
     position: absolute;
-    margin-top: 330px;
+    margin-top: 336px;
     width: inherit;
     // Just to keep this on top...
     z-index: 10000;

@@ -25,9 +25,10 @@ class Table extends React.Component {
       newPlayers.push({
         hand: [],
         balance: 1000,
-        bust: false,
+        isBust: false,
         total: 0,
         id: x,
+        isStick: false,
       });
 
     this.setState({ players: newPlayers });
@@ -40,6 +41,13 @@ class Table extends React.Component {
 
     let newState = this.state;
     newState.players[id].hand = newHand;
+    this.setState({ players: newState.players });
+  };
+
+  stick = (id) => {
+    let newState = this.state;
+    newState.players[id].isStick = true;
+    console.log();
     this.setState({ players: newState.players });
   };
 
@@ -57,10 +65,12 @@ class Table extends React.Component {
               <Player
                 id={player.id}
                 key={player.id}
-                hit={this.hit}
+                hitFunction={this.hit}
                 hand={player.hand}
                 balance={player.balance}
-                bust={player.bust}
+                isBust={player.isBust}
+                isStick={player.isStick}
+                stickFunction={this.stick}
               />
             ))}
           </div>
