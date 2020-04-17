@@ -3,43 +3,31 @@ import "./card.scss";
 
 const Card = (props) => {
   const { suit, value, index } = props;
+  // Generate a random positive / negative number to scatter cards a bit
+  // prettier-ignore
+  const randomDeg = Math.abs(Math.random()) * 2 > 1 ? `rotate(-${Math.random() * 6}deg)` : `rotate(${Math.random() * 6}5deg)`;
+  console.log(randomDeg);
 
   return (
     <div className="card-container">
-      <div
-        className="card-header"
-        style={{ color: suit == "♥" || suit == "♦" ? "red" : "black" }}
-      >
-        {suit}
-        {value}
-      </div>
-      <div
-        className="card-footer"
-        style={{ color: suit == "♥" || suit == "♦" ? "red" : "black" }}
-      >
-        {suit}
-        {value}
+      <div className="card" style={{ transform: randomDeg }}>
+        <div
+          className="card-header"
+          style={{ color: suit == "♥" || suit == "♦" ? "red" : "black" }}
+        >
+          {suit}
+          {value}
+        </div>
+        <div
+          className="card-footer"
+          style={{ color: suit == "♥" || suit == "♦" ? "red" : "black" }}
+        >
+          {suit}
+          {value}
+        </div>
       </div>
     </div>
   );
 };
 
 export default Card;
-
-/*
-export default class Card extends React.Component<any> {
-  render() {
-    const { suit, value, index } = this.props;
-    return (
-      // prettier-ignore
-      <PlayingCard style={{marginLeft: index == 0 ? '0px' : '-140px', marginTop: index * 30 }}>
-          <div style={{ paddingTop: "1px", paddingLeft: "3px" }}>
-            <div style={{ fontSize: '1.5rem',color: suit == "hearts" || suit == "diams" ? "red" : "black" }}
-              dangerouslySetInnerHTML={{ __html: `${value}&${suit};` }} />
-          </div>
-        </PlayingCard>
-    );
-  }
-}
-
-*/
