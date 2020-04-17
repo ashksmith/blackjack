@@ -32,6 +32,25 @@
   }
 }
 
+.player-status {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(26, 26, 26, 0.6);
+  position: absolute;
+  width: inherit;
+  margin-bottom: 300px;
+  font-size: 22pt;
+  // Just to keep this on top...
+  z-index: 10000;
+  // Diagonal div
+  -webkit-transform: skewY(-5deg);
+  -moz-transform: skewY(-5deg);
+  -ms-transform: skewY(-5deg);
+  -o-transform: skewY(-5deg);
+  transform: skewY(-5deg);
+}
+
 .player-cards-container {
   padding: 30px;
   flex-direction: column;

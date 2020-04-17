@@ -15,12 +15,15 @@ class Player extends React.Component {
     // prettier-ignore
     const { id, balance, hand, isBust, isStick, hitFunction, stickFunction, stick, dealer } = this.props;
     const disabled = isBust || isStick ? true : false;
+    const statusText = isBust ? "Bust!" : isStick ? "Stick!" : "";
+    console.log(statusText);
 
     return (
       <div className="player-container">
         <div className="player-controls-container">
-          <div hidden={dealer}>Balance: {balance}</div>
-          <div hidden={dealer}>
+          <div className="player-status">{statusText}</div>
+          <div hidden={dealer || disabled}>Balance: {balance}</div>
+          <div hidden={dealer || disabled}>
             <input
               disabled={disabled}
               type="button"
