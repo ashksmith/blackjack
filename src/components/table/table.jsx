@@ -29,6 +29,7 @@ class Table extends React.Component {
         total: 0,
         id: x,
         isStick: false,
+        bet: 0,
       });
 
     this.setState({ players: newPlayers });
@@ -47,12 +48,24 @@ class Table extends React.Component {
   stick = (id) => {
     let newState = this.state;
     newState.players[id].isStick = true;
-    console.log();
     this.setState({ players: newState.players });
   };
 
+  bet = (id, value) =>
+    this.setState((prevState) => {
+      console.log("a");
+      const player = prevState.players[id];
+      // Check that bet is not too much..
+      if (player.bet + value >= player.balance) return;
+      else if (player.bet + value <= player.balance) {
+        let newState = prevState;
+        // Not sure why this does this..
+        newState.players[id].bet = player.bet + value / 2;
+        return newState;
+      }
+    });
+
   render() {
-    console.log(this.state);
     return (
       <div className="table-container">
         <h1 style={{ textAlign: "center" }}>♣ ♦ Blackjack ♥ ♠</h1>
@@ -64,6 +77,7 @@ class Table extends React.Component {
             {this.state.players.map((player) => (
               <Player
                 id={player.id}
+                bet={player.bet}
                 key={player.id}
                 hitFunction={this.hit}
                 hand={player.hand}
@@ -71,6 +85,7 @@ class Table extends React.Component {
                 isBust={player.isBust}
                 isStick={player.isStick}
                 stickFunction={this.stick}
+                betFunction={this.bet}
               />
             ))}
           </div>

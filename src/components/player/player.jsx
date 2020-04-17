@@ -8,22 +8,58 @@ class Player extends React.Component {
   constructor() {
     super();
 
-    this.state = {};
+    this.state = {
+      view: "controls",
+    };
   }
+
+  setViewBet = () => this.setState({ view: "bet" });
+  setViewControls = () => this.setState({ view: "controls" });
 
   render() {
     // prettier-ignore
-    const { id, balance, hand, isBust, isStick, hitFunction, stickFunction, stick, dealer } = this.props;
+    const { id, balance, hand, isBust, isStick, hitFunction, stickFunction, dealer, betFunction, bet } = this.props;
+
+    const view = this.state.view;
     const disabled = isBust || isStick ? true : false;
     const statusText = isBust ? "Bust!" : isStick ? "Stick!" : "";
-    console.log(statusText);
 
     return (
       <div className="player-container">
         <div className="player-controls-container">
           <div className="player-status">{statusText}</div>
-          <div hidden={dealer || disabled}>Balance: {balance}</div>
           <div hidden={dealer || disabled}>
+            Balance: {balance}, Bet: {bet}
+          </div>
+          <div hidden={dealer || disabled || view != "bet"}>
+            <input
+              type="Button"
+              value="Cancel"
+              onClick={this.setViewControls}
+            ></input>
+            <input
+              type="Button"
+              value="10"
+              onClick={() => betFunction(id, 10)}
+            ></input>
+            <input
+              type="Button"
+              value="20"
+              onClick={() => betFunction(id, 20)}
+            ></input>
+            <input
+              type="Button"
+              value="50"
+              onClick={() => betFunction(id, 50)}
+            ></input>
+            <input
+              type="Button"
+              value="100"
+              onClick={() => betFunction(id, 100)}
+            ></input>
+          </div>
+
+          <div hidden={dealer || disabled || view != "controls"}>
             <input
               disabled={disabled}
               type="button"
@@ -42,6 +78,7 @@ class Player extends React.Component {
               disabled={disabled}
               type="button"
               value="Bet"
+              onClick={this.setViewBet}
               className="button-input"
             ></input>
           </div>
