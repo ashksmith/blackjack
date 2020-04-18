@@ -38,7 +38,7 @@ class Table extends React.Component {
         total: 0,
         id: x,
         isStick: false,
-        bet: 100,
+        bet: 0,
         isWinner: false,
         isLoser: false,
         isDraw: false, // Draw apparently is called a push
