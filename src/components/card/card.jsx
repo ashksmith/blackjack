@@ -26,6 +26,12 @@ class Card extends React.Component {
             {value}
           </div>
           <div
+            className="card-suit"
+            style={{ color: suit === "♥" || suit === "♦" ? "red" : "black" }}
+          >
+            {suit}
+          </div>
+          <div
             className="card-footer"
             style={{ color: suit === "♥" || suit === "♦" ? "red" : "black" }}
           >

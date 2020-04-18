@@ -38,7 +38,7 @@ class Table extends React.Component {
         total: 0,
         id: x,
         isStick: false,
-        bet: 0,
+        bet: 100,
         isWinner: false,
         isLoser: false,
         isDraw: false, // Draw apparently is called a push
@@ -208,20 +208,23 @@ class Table extends React.Component {
       });
     } else if (highestPlayerHand > dealer.handTotal) {
       players.forEach((player) => {
-        if (player.handTotal > dealer.handTotal) {
-          // Found a winner
-          winningIds.push(player.id);
-          newState.players[player.id].isWinner = true;
-        } else if (player.handTotal < dealer.handTotal) {
-          newState.players[player.id].isLoser = true;
-        } else if (player.handTotal === dealer.handTotal) {
-          newState.players[player.id].isDraw = true;
-        }
+        // Make sure player is even elligible to win
+        if (!player.isBust && !player.isOut)
+          if (player.handTotal > dealer.handTotal) {
+            // Found a winner
+            winningIds.push(player.id);
+            newState.players[player.id].isWinner = true;
+          } else if (player.handTotal < dealer.handTotal) {
+            newState.players[player.id].isLoser = true;
+          } else if (player.handTotal === dealer.handTotal) {
+            newState.players[player.id].isDraw = true;
+          }
       });
     }
 
     // Calculate money
     players.forEach((player) => {
+      console.log(player.isWinner);
       // Blackjack 3:1 and otherwise 2:1, apparently
       if (player.isWinner && player.handTotal === 21)
         player.balance = player.balance + player.bet * 3;

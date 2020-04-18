@@ -1,24 +1,30 @@
 .card-container {
   .card {
     background-color: white;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 0ptpx 6px rgba(0, 0, 0, 0.23);
     height: 240px;
     width: 150px;
     border-radius: 10px;
-    font-size: 12pt;
+    font-size: 13pt;
     position: relative;
     margin-top: -210px;
     text-shadow: none;
   }
 
   .card-header {
-    height: 88%;
+    height: 12%;
     padding-left: 3px;
   }
 
+  .card-suit {
+    height: 76%;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 60pt;
+  }
+
   .card-footer {
-    height: 12%;
-    -moz-transform: rotate(-180deg);
+    -moz-transform: rotateX(-180deg);
     -webkit-transform: rotate(-180deg);
     -ms-transform: rotate(-180deg);
     -o-transform: rotate(-180deg);
