@@ -196,7 +196,12 @@ class Table extends React.Component {
     let highestPlayerHand = 0;
 
     players.forEach((player) => {
-      if (player.handTotal > highestPlayerHand)
+      // Make sure to only count players who are not out or bust
+      if (
+        player.handTotal > highestPlayerHand &&
+        !player.isBust &&
+        !player.isOut
+      )
         highestPlayerHand = player.handTotal;
     });
 
@@ -224,7 +229,6 @@ class Table extends React.Component {
 
     // Calculate money
     players.forEach((player) => {
-      console.log(player.isWinner);
       // Blackjack 3:1 and otherwise 2:1, apparently
       if (player.isWinner && player.handTotal === 21)
         player.balance = player.balance + player.bet * 3;
@@ -262,7 +266,6 @@ class Table extends React.Component {
           </div>
           <div className="dealer-container">
             <Player
-              className="dealer"
               dealer="true"
               hand={dealer.hand}
               isBust={dealer.isBust}
