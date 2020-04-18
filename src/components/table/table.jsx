@@ -25,7 +25,7 @@ class Table extends React.Component {
 
   componentWillMount() {
     // Setting this to 1 for now
-    let numberOfPlayers = prompt("How many players are already at the table");
+    let numberOfPlayers = prompt("How many players are at the table");
     let players = new Array(Number(numberOfPlayers));
     let newPlayers = [];
 
