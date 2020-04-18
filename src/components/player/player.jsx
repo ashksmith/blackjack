@@ -31,12 +31,15 @@ class Player extends React.Component {
       isWinner,
       isLoser,
       isDraw,
+      isOut,
     } = this.props;
 
     const view = this.state.view;
-    const disabled = isBust || isStick ? true : false;
-    const statusText =
-      hand && hand.length !== 0 && isBust
+    const disabled = isBust || isStick || isOut ? true : false;
+    let statusText =
+      hand && hand.length !== 0 && isOut
+        ? "Out!"
+        : isBust
         ? "Bust!"
         : isDraw
         ? "Draw!"
@@ -47,6 +50,8 @@ class Player extends React.Component {
         : isStick
         ? "Stick!"
         : "";
+
+    if (isOut) statusText = "Out!";
 
     return (
       <div className="player-container">

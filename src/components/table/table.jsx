@@ -25,8 +25,7 @@ class Table extends React.Component {
 
   componentWillMount() {
     // Setting this to 1 for now
-    //let numberOfPlayers = prompt("How many players are already at the table");
-    let numberOfPlayers = 3;
+    let numberOfPlayers = prompt("How many players are already at the table");
     let players = new Array(Number(numberOfPlayers));
     let newPlayers = [];
 
@@ -39,10 +38,11 @@ class Table extends React.Component {
         total: 0,
         id: x,
         isStick: false,
-        bet: 100,
+        bet: 0,
         isWinner: false,
         isLoser: false,
         isDraw: false, // Draw apparently is called a push
+        isOut: false,
       });
 
     this.setState({ players: newPlayers });
@@ -53,7 +53,7 @@ class Table extends React.Component {
 
     // play a round if everyone is stuck or bust
     // prettier-ignore
-    if (players.every((player) => player.isBust || player.isStick) && roundInProgress){ 
+    if (players.every((player) => player.isBust || player.isStick || player.isOut) && roundInProgress){ 
       this.playRound();
     }
   }
@@ -130,11 +130,12 @@ class Table extends React.Component {
       player.hand = [];
       player.isStick = false;
       player.isBust = false;
-      player.bet = 100;
+      player.bet = 0;
       player.isWinner = false;
       player.handTotal = 0;
       player.isLoser = false;
       player.isDraw = false;
+      player.isOut = player.balance == 0 ? true : false;
     });
 
     dealer.hand = [];
@@ -174,7 +175,10 @@ class Table extends React.Component {
     }
 
     newDealer.handTotal = total;
-    if (total > 21) newDealer.isBust = true;
+    if (total > 21) {
+      newDealer.isBust = true;
+      newDealer.handTotal = 0;
+    }
 
     this.setState({ dealer: newDealer });
   };
@@ -196,14 +200,14 @@ class Table extends React.Component {
         highestPlayerHand = player.handTotal;
     });
 
-    if (dealer.handTotal > highestPlayerHand) {
+    // If the dealers hand is greater than any off the players and the dealer is not bust.. well he won
+    if (dealer.handTotal > highestPlayerHand && !dealer.isBust) {
       newState.dealer.isWinner = true;
       players.forEach((player) => {
         newState.players[player.id].isLoser = true;
       });
     } else if (highestPlayerHand > dealer.handTotal) {
       players.forEach((player) => {
-        console.log(player.handTotal < dealer.handTotal);
         if (player.handTotal > dealer.handTotal) {
           // Found a winner
           winningIds.push(player.id);
@@ -216,13 +220,7 @@ class Table extends React.Component {
       });
     }
 
-    this.calculateBalances(newState);
-  };
-
-  calculateBalances = (newState) => {
-    let { players } = newState;
-
-    // Find winners
+    // Calculate money
     players.forEach((player) => {
       // Blackjack 3:1 and otherwise 2:1, apparently
       if (player.isWinner && player.handTotal === 21)
@@ -232,9 +230,14 @@ class Table extends React.Component {
       } else if (player.isLoser || player.isBust) {
         player.balance = player.balance - player.bet;
       }
+
+      // Check if a player is oot, as the Canadians say.
+      if (player.balance == 0) {
+        player.isOut = true;
+      }
     });
 
-    this.setState({ players: players });
+    this.setState({ newState });
   };
 
   render() {
@@ -281,6 +284,7 @@ class Table extends React.Component {
                 betFunction={this.bet}
                 isLoser={player.isLoser}
                 isDraw={player.isDraw}
+                isOut={player.isOut}
               />
             ))}
           </div>
