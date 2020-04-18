@@ -246,18 +246,17 @@ class Table extends React.Component {
     return (
       <div className="table-container">
         <h1 style={{ textAlign: "center" }}>♣ ♦ Blackjack ♥ ♠</h1>
+        <h2 className="dealer-text">Dealer</h2>
         <div className="play-area">
           <div className="status-area">
             <input
               hidden={this.state.roundInProgress}
               onClick={this.reset}
               type="button"
-              value="Deal"
+              value="Next Game"
             />
-            <br />
             <div hidden={!this.state.roundInProgress}></div>
           </div>
-
           <div className="dealer-container">
             <Player
               dealer="true"

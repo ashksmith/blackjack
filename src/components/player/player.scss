@@ -3,6 +3,7 @@
   border-radius: 15px;
   height: 400px;
   width: 225px;
+  margin-right: 7.5px;
 
   .player-cards-container {
     display: inline-flex;
@@ -23,12 +24,8 @@
     z-index: 10000;
   }
 
-  &:first-child {
-    margin-right: 7.5px;
-  }
-
   &:last-child {
-    margin-left: 7.5px;
+    margin-right: 0px;
   }
 }
 
