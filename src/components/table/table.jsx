@@ -259,6 +259,7 @@ class Table extends React.Component {
           </div>
           <div className="dealer-container">
             <Player
+              className="dealer"
               dealer="true"
               hand={dealer.hand}
               isBust={dealer.isBust}
