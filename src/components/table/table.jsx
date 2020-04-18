@@ -18,6 +18,7 @@ class Table extends React.Component {
         isBust: false,
         isWinner: false,
         isLoser: false,
+        isDraw: false,
       },
     };
   }
@@ -42,7 +43,6 @@ class Table extends React.Component {
         isWinner: false,
         isLoser: false,
         isDraw: false, // Draw apparently is called a push
-        isOut: false, // To determine if a player is "dead" or out of cash
       });
 
     this.setState({ players: newPlayers });
@@ -50,6 +50,7 @@ class Table extends React.Component {
 
   componentDidUpdate() {
     const { players, roundInProgress } = this.state;
+
     // play a round if everyone is stuck or bust
     // prettier-ignore
     if (players.every((player) => player.isBust || player.isStick) && roundInProgress){ 
@@ -95,9 +96,9 @@ class Table extends React.Component {
 
     hand.forEach((card) => {
       // Determine card values
-      if (card.value == "Q" || card.value == "K" || card.value == "J") {
+      if (card.value === "Q" || card.value === "K" || card.value === "J") {
         total = total + 10;
-      } else if (card.value == "A") {
+      } else if (card.value === "A") {
         // Determine when Ace should be 1 or 11
         if (total + 11 > 21) {
           total = total + 1;
@@ -126,9 +127,9 @@ class Table extends React.Component {
     let total = 0;
 
     newDealer.hand.forEach((card) => {
-      if (card.value == "Q" || card.value == "K" || card.value == "J") {
+      if (card.value === "Q" || card.value === "K" || card.value === "J") {
         total = total + 10;
-      } else if (card.value == "A") {
+      } else if (card.value === "A") {
         if (total + 11 > 21) {
           total = total + 1;
         } else {
@@ -201,6 +202,7 @@ class Table extends React.Component {
 
     const players = this.state.players;
     const dealer = this.state.dealer;
+
     let newState = this.state;
     newState.roundInProgress = false;
     let winningIds = [];
@@ -212,35 +214,33 @@ class Table extends React.Component {
       else return 0;
     }))
 
-    // Determines if the dealer or players win/draw with the dealer
-    if (dealer.handTotal > highestPlayerHand && !dealer.isBust) {
+    // No need to check if bust becasue handTotal
+    if (dealer.handTotal > highestPlayerHand) {
       newState.dealer.isWinner = true;
-    } else {
+    } else if (dealer.handTotal < highestPlayerHand) {
       players.forEach((player) => {
-        // If the player has more than dealer.
-        if (player.handTotal > dealer.handTotal && !player.isBust) {
+        if (player.handTotal > dealer.handTotal) {
+          // Found a winner
           winningIds.push(player.id);
           newState.players[player.id].isWinner = true;
-        } else if (player.handTotal < dealer.handTotal || !player.isBust) {
-          // If player the player has less than the dealer
+        } else if (player.handTotal < dealer.handTotal) {
           newState.players[player.id].isLoser = true;
-        } else if (player.handTotal == dealer.handTotal) {
+        } else if (player.handTotal === dealer.handTotal) {
           newState.players[player.id].isDraw = true;
         }
       });
     }
 
-    this.calculateBalances();
-    this.setState({ newState });
+    this.calculateBalances(newState);
   };
 
-  calculateBalances = () => {
-    let { players } = this.state;
+  calculateBalances = (newState) => {
+    let { players } = newState;
 
     // Find winners
     players.forEach((player) => {
       // Blackjack 3:1 and otherwise 2:1, apparently
-      if (player.isWinner && player.handTotal == 21)
+      if (player.isWinner && player.handTotal === 21)
         player.balance = player.balance + player.bet * 3;
       else if (player.isWinner) {
         player.balance = player.balance + player.bet * 2;
@@ -276,6 +276,8 @@ class Table extends React.Component {
               hand={dealer.hand}
               isBust={dealer.isBust}
               isWinner={dealer.isWinner}
+              isLoser={dealer.isLoser}
+              isDraw={false}
             />
           </div>
           <div className="players-container">

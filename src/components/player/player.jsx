@@ -31,13 +31,12 @@ class Player extends React.Component {
       isWinner,
       isLoser,
       isDraw,
-      isOut,
     } = this.props;
 
     const view = this.state.view;
-    const disabled = isBust || isStick || isOut ? true : false;
+    const disabled = isBust || isStick ? true : false;
     const statusText =
-      hand && hand.length != 0 && isBust
+      hand && hand.length !== 0 && isBust
         ? "Bust!"
         : isDraw
         ? "Draw!"
@@ -56,7 +55,7 @@ class Player extends React.Component {
           <div hidden={dealer || disabled}>
             Balance: {balance}, Bet: {bet}
           </div>
-          <div hidden={dealer || disabled || view != "bet"}>
+          <div hidden={dealer || disabled || view !== "bet"}>
             <input
               type="Button"
               value="Back"
@@ -84,7 +83,7 @@ class Player extends React.Component {
             ></input>
           </div>
 
-          <div hidden={dealer || disabled || view != "controls"}>
+          <div hidden={dealer || disabled || view !== "controls"}>
             <input
               disabled={disabled || bet < 1}
               type="button"
@@ -93,7 +92,7 @@ class Player extends React.Component {
               className="button-input"
             ></input>
             <input
-              disabled={disabled || (hand && hand.length == 0)}
+              disabled={disabled || (hand && hand.length === 0)}
               type="button"
               value="Stick"
               onClick={() => stickFunction(id)}

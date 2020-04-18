@@ -13,21 +13,21 @@ class Card extends React.Component {
   }
 
   render() {
-    const { suit, value, index } = this.props;
+    const { suit, value } = this.props;
 
     return (
       <div className="card-container">
         <div className="card" style={{ transform: this.state.randomDeg }}>
           <div
             className="card-header"
-            style={{ color: suit == "♥" || suit == "♦" ? "red" : "black" }}
+            style={{ color: suit === "♥" || suit === "♦" ? "red" : "black" }}
           >
             {suit}
             {value}
           </div>
           <div
             className="card-footer"
-            style={{ color: suit == "♥" || suit == "♦" ? "red" : "black" }}
+            style={{ color: suit === "♥" || suit === "♦" ? "red" : "black" }}
           >
             {suit}
             {value}
