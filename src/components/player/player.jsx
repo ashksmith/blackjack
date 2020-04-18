@@ -18,11 +18,18 @@ class Player extends React.Component {
 
   render() {
     // prettier-ignore
-    const { id, balance, hand, isBust, isStick, hitFunction, stickFunction, dealer, betFunction, bet } = this.props;
+    const { id, balance, hand, isBust, isStick, hitFunction, stickFunction, dealer, betFunction, bet, isWinner } = this.props;
 
     const view = this.state.view;
     const disabled = isBust || isStick ? true : false;
-    const statusText = isBust ? "Bust!" : isStick ? "Stick!" : "";
+    const statusText =
+      hand && hand.length != 0 && isBust
+        ? "Bust!"
+        : isWinner
+        ? "Winner!"
+        : isStick
+        ? "Stick!"
+        : "";
 
     return (
       <div className="player-container">
@@ -34,7 +41,7 @@ class Player extends React.Component {
           <div hidden={dealer || disabled || view != "bet"}>
             <input
               type="Button"
-              value="Cancel"
+              value="Back"
               onClick={this.setViewControls}
             ></input>
             <input
@@ -61,21 +68,21 @@ class Player extends React.Component {
 
           <div hidden={dealer || disabled || view != "controls"}>
             <input
-              disabled={disabled}
+              disabled={disabled || bet < 1}
               type="button"
               value="Hit"
               onClick={() => hitFunction(id)}
               className="button-input"
             ></input>
             <input
-              disabled={disabled}
+              disabled={disabled || (hand && hand.length == 0)}
               type="button"
               value="Stick"
               onClick={() => stickFunction(id)}
               className="button-input"
             ></input>
             <input
-              disabled={disabled}
+              disabled={disabled || (hand && hand.length > 0)}
               type="button"
               value="Bet"
               onClick={this.setViewBet}

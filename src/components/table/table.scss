@@ -1,7 +1,9 @@
 .table-container {
-}
-
-.play-area {
+  .status-area {
+    display: flex;
+    justify-content: center;
+    font-size: 30pt;
+  }
 }
 
 .dealer-container {
