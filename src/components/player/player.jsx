@@ -17,14 +17,32 @@ class Player extends React.Component {
   setViewControls = () => this.setState({ view: "controls" });
 
   render() {
-    // prettier-ignore
-    const { id, balance, hand, isBust, isStick, hitFunction, stickFunction, dealer, betFunction, bet, isWinner } = this.props;
+    const {
+      id,
+      balance,
+      hand,
+      isBust,
+      isStick,
+      hitFunction,
+      stickFunction,
+      dealer,
+      betFunction,
+      bet,
+      isWinner,
+      isLoser,
+      isDraw,
+      isOut,
+    } = this.props;
 
     const view = this.state.view;
-    const disabled = isBust || isStick ? true : false;
+    const disabled = isBust || isStick || isOut ? true : false;
     const statusText =
       hand && hand.length != 0 && isBust
         ? "Bust!"
+        : isDraw
+        ? "Draw!"
+        : isLoser
+        ? "Loser!"
         : isWinner
         ? "Winner!"
         : isStick
