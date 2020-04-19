@@ -1,0 +1,16 @@
+body {
+  font-family: "Pacifico", cursive;
+  background-color: darkgreen;
+  color: white;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+    1px 1px 0 #000;
+  transition: height 0.25s linear;
+}
+
+input {
+  background-color: black;
+  color: white;
+  border-radius: 15px;
+  font-family: "Pacifico", cursive;
+  font-size: large;
+}
