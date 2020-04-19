@@ -6,6 +6,5 @@ Things todo:
   - Splitting
   - Animations
 
-Can be seen at: https://ashksmith.github.io/blackjack/
-Or
-To run: git clone https://github.com/ashksmith/blackack; cd blackjack; npm install && npm start
+- Can be seen at: https://ashksmith.github.io/blackjack/
+- To run: git clone https://github.com/ashksmith/blackack; cd blackjack; npm install && npm start
