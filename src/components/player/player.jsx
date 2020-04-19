@@ -36,6 +36,9 @@ class Player extends React.Component {
 
     const view = this.state.view;
     const disabled = isBust || isStick || isOut ? true : false;
+    const hasNotBet = bet < 1 ? true : false;
+    const hasNoHand = hand && hand.length < 1;
+
     let statusText =
       hand && hand.length !== 0 && isOut
         ? "Out!"
@@ -90,25 +93,25 @@ class Player extends React.Component {
 
           <div hidden={dealer || disabled || view !== "controls"}>
             <input
-              disabled={disabled || bet < 1}
+              disabled={disabled || hasNotBet}
               type="button"
               value="Hit"
               onClick={() => hitFunction(id)}
-              className="button-input"
+              className={disabled || hasNotBet ? "disabled" : ""}
             ></input>
             <input
-              disabled={disabled || (hand && hand.length === 0)}
+              disabled={disabled || hasNoHand}
               type="button"
               value="Stick"
               onClick={() => stickFunction(id)}
-              className="button-input"
+              className={disabled || hasNoHand ? "disabled" : ""}
             ></input>
             <input
-              disabled={disabled || (hand && hand.length > 0)}
+              disabled={disabled || !hasNoHand}
               type="button"
               value="Bet"
               onClick={this.setViewBet}
-              className="button-input"
+              className={disabled || !hasNoHand ? "disabled" : ""}
             ></input>
           </div>
         </div>
